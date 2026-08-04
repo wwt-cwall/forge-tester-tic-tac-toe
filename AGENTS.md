@@ -15,5 +15,55 @@ A simple web based tic tac toe game to play with friends.
 
 ## Conventions
 
-TODO: how to install, build, test, and lint this project, and the conventions
-worth knowing before making changes.
+### Installation
+
+```bash
+npm install
+```
+
+### Building
+
+Build all packages:
+```bash
+npm run build
+```
+
+Build a specific package:
+```bash
+npm run build --workspace=packages/frontend
+npm run build --workspace=packages/backend
+```
+
+### Testing
+
+Run all tests:
+```bash
+npm run test
+```
+
+Run tests for a specific package:
+```bash
+npm run test --workspace=packages/frontend
+npm run test --workspace=packages/backend
+```
+
+### Development
+
+Run all packages in dev mode:
+```bash
+npm run dev
+```
+
+Run a specific package:
+```bash
+npm run dev:frontend
+npm run dev:backend
+```
+
+### Monorepo Structure
+
+This is a npm workspaces monorepo with:
+- `packages/frontend` - Next.js application
+- `packages/backend` - Node.js API server
+
+The root `package.json` defines workspace scripts that run commands across all packages.
