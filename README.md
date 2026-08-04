@@ -35,16 +35,23 @@ npm run dev
 Or run them individually:
 
 ```bash
-npm run dev:frontend
-npm run dev:backend
+npm run dev:frontend  # Starts Next.js dev server on port 3000
+npm run dev:backend   # Starts Node.js API server on port 3001
 ```
 
 ### Building
 
-Build both projects:
+Build all packages:
 
 ```bash
 npm run build
+```
+
+Build a specific package:
+
+```bash
+npm run build --workspace=packages/frontend
+npm run build --workspace=packages/backend
 ```
 
 ### Testing
@@ -53,6 +60,21 @@ Run tests for all packages:
 
 ```bash
 npm run test
+```
+
+Run tests for a specific package:
+
+```bash
+npm run test --workspace=packages/frontend
+npm run test --workspace=packages/backend
+```
+
+### Linting
+
+Run linters for all packages:
+
+```bash
+npm run lint
 ```
 
 ## Packages
