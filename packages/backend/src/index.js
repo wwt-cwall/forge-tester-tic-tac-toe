@@ -3,14 +3,21 @@ const http = require('http');
 const PORT = process.env.PORT || 3001;
 
 /**
+ * Track server start time for uptime calculation
+ */
+const startTime = Date.now();
+
+/**
  * Route handlers
  */
 const routes = {
   health: (req, res) => {
+    const uptimeSeconds = Math.floor((Date.now() - startTime) / 1000);
     res.statusCode = 200;
     res.end(JSON.stringify({ 
       status: 'ok', 
-      message: 'Tic-tac-toe backend is running' 
+      message: 'Tic-tac-toe backend is running',
+      uptimeSeconds: uptimeSeconds
     }));
   },
   
