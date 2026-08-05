@@ -116,7 +116,63 @@ async function runTests() {
       failed++;
     }
     
-    // Test 5: Game API endpoint returns 200
+    // Test 5: Health endpoint returns uptimeSeconds field
+    try {
+      const response = await makeRequest('/health');
+      assert(response.body.hasOwnProperty('uptimeSeconds'),
+        'Health check failed: missing uptimeSeconds field');
+      console.log('✓ Health endpoint returns uptimeSeconds field');
+      passed++;
+    } catch (error) {
+      console.error('✗ Health endpoint returns uptimeSeconds field:', error.message);
+      failed++;
+    }
+    
+    // Test 6: uptimeSeconds is a number
+    try {
+      const response = await makeRequest('/health');
+      assert(typeof response.body.uptimeSeconds === 'number',
+        `Health check failed: uptimeSeconds should be a number, got ${typeof response.body.uptimeSeconds}`);
+      console.log('✓ uptimeSeconds is a number');
+      passed++;
+    } catch (error) {
+      console.error('✗ uptimeSeconds is a number:', error.message);
+      failed++;
+    }
+    
+    // Test 7: uptimeSeconds is non-negative
+    try {
+      const response = await makeRequest('/health');
+      assert(response.body.uptimeSeconds >= 0,
+        `Health check failed: uptimeSeconds should be non-negative, got ${response.body.uptimeSeconds}`);
+      console.log('✓ uptimeSeconds is non-negative');
+      passed++;
+    } catch (error) {
+      console.error('✗ uptimeSeconds is non-negative:', error.message);
+      failed++;
+    }
+    
+    // Test 8: uptimeSeconds increases over time
+    try {
+      const response1 = await makeRequest('/health');
+      const uptime1 = response1.body.uptimeSeconds;
+      
+      // Wait a bit
+      await new Promise(resolve => setTimeout(resolve, 1100));
+      
+      const response2 = await makeRequest('/health');
+      const uptime2 = response2.body.uptimeSeconds;
+      
+      assert(uptime2 >= uptime1,
+        `Health check failed: uptimeSeconds should increase over time, got ${uptime1} then ${uptime2}`);
+      console.log('✓ uptimeSeconds increases over time');
+      passed++;
+    } catch (error) {
+      console.error('✗ uptimeSeconds increases over time:', error.message);
+      failed++;
+    }
+    
+    // Test 9: Game API endpoint returns 200
     try {
       const response = await makeRequest('/api/game');
       assert(response.statusCode === 200,
@@ -128,7 +184,7 @@ async function runTests() {
       failed++;
     }
     
-    // Test 6: Game API endpoint returns message
+    // Test 10: Game API endpoint returns message
     try {
       const response = await makeRequest('/api/game');
       assert(response.body.message,
@@ -140,7 +196,7 @@ async function runTests() {
       failed++;
     }
     
-    // Test 7: Unknown routes return 404
+    // Test 11: Unknown routes return 404
     try {
       const response = await makeRequest('/unknown');
       assert(response.statusCode === 404,
@@ -152,7 +208,7 @@ async function runTests() {
       failed++;
     }
     
-    // Test 8: 404 response includes error message
+    // Test 12: 404 response includes error message
     try {
       const response = await makeRequest('/unknown');
       assert(response.body.error === 'Not found',
