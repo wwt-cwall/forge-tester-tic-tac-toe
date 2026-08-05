@@ -102,7 +102,7 @@ If certificates are not found, only HTTP will be available.
 
 ### Continuous integration
 
-Every push runs `.github/workflows/ci.yml`: `npm ci`, `npm test`, then `npm run test:ci`.
+Every push runs `.github/workflows/ci.yml`: `npm install`, `npm test`, then `npm run test:ci`.
 
 `npm run test:ci` holds the checks that are repository-wide rather than any one package's, so
 they run once per push instead of on every `npm test`. They are skipped unless `CI` is set —
