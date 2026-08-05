@@ -18,14 +18,14 @@ console.log('Starting development servers...');
 console.log(`Frontend will run on: http://localhost:${FRONTEND_PORT}`);
 console.log(`Backend will run on: http://localhost:${BACKEND_PORT}`);
 
-// Start frontend dev server
-const frontend = spawn('npm', ['run', 'dev', '--workspace=packages/frontend'], {
+// Start frontend dev server (Next.js uses --port flag)
+const frontend = spawn('npm', ['run', 'dev', '--workspace=packages/frontend', '--', '--port', FRONTEND_PORT], {
   stdio: 'inherit',
   shell: true,
-  env: { ...process.env, PORT: FRONTEND_PORT }
+  env: { ...process.env }
 });
 
-// Start backend dev server
+// Start backend dev server (uses PORT env var)
 const backend = spawn('npm', ['run', 'dev', '--workspace=packages/backend'], {
   stdio: 'inherit',
   shell: true,
