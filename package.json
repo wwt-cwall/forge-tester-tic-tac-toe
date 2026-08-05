@@ -7,17 +7,21 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
+    "build": "node scripts/build.js",
+    "dev": "NODE_ENV=DEV node scripts/dev-server.js",
+    "start": "NODE_ENV=PROD node scripts/server.js",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "dev:frontend": "npm run dev --workspace=packages/frontend",
-    "dev:backend": "npm run dev --workspace=packages/backend",
-    "dev": "npm run dev --workspaces --if-present"
+    "dev:backend": "npm run dev --workspace=packages/backend"
   },
   "keywords": [
     "tic-tac-toe",
     "game"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "next": "^16.3.0"
+  }
 }
