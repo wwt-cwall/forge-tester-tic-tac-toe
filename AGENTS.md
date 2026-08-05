@@ -23,10 +23,15 @@ npm install
 
 ### Building
 
-Build all packages:
+Build the entire application for production:
 ```bash
 npm run build
 ```
+
+This will:
+- Build the Next.js frontend into an optimized production bundle
+- Build the backend (currently a no-op, but extensible)
+- Prepare all dependencies for production deployment
 
 Build a specific package:
 ```bash
@@ -49,16 +54,51 @@ npm run test --workspace=packages/backend
 
 ### Development
 
-Run all packages in dev mode:
+Start the development server (runs both frontend and backend concurrently):
 ```bash
 npm run dev
 ```
 
+This will:
+- Start the Next.js frontend on `http://localhost:3000` with hot reloading
+- Start the backend API on `http://localhost:3001`
+- Set `NODE_ENV=DEV`
+
 Run a specific package:
 ```bash
-npm run dev:frontend
-npm run dev:backend
+npm run dev:frontend  # Frontend only on port 3000
+npm run dev:backend   # Backend only on port 3001
 ```
+
+### Production
+
+Start the production server (serves both frontend and backend from a single Node.js process):
+```bash
+npm start
+```
+
+This will:
+- Serve the built Next.js frontend
+- Serve the backend API
+- Run on HTTP port 80 (or custom via `HTTP_PORT` env var)
+- Run on HTTPS port 443 if SSL certificates are available in `certs/` directory
+- Set `NODE_ENV=PROD`
+
+**HTTPS Configuration:**
+
+To enable HTTPS in production, place SSL certificates in a `certs/` directory at the project root:
+- `certs/key.pem` - Private key
+- `certs/cert.pem` - Certificate
+
+If certificates are not found, only HTTP will be available.
+
+**Environment Variables:**
+- `NODE_ENV` - Set to `DEV` or `PROD`
+- `HTTP_PORT` - HTTP port (default: 3000 for dev, 80 for prod)
+- `HTTPS_PORT` - HTTPS port (default: 443)
+- `USE_HTTPS` - Set to `false` to disable HTTPS in production
+- `FRONTEND_PORT` - Frontend port in dev mode (default: 3000)
+- `BACKEND_PORT` - Backend port in dev mode (default: 3001)
 
 ### Monorepo Structure
 
