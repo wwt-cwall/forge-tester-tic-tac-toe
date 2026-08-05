@@ -3,6 +3,14 @@ const http = require('http');
 const PORT = process.env.PORT || 3001;
 
 /**
+ * Game state
+ */
+let gameState = {
+  board: [null, null, null, null, null, null, null, null, null],
+  currentPlayer: 'X'
+};
+
+/**
  * Route handlers
  */
 const routes = {
@@ -11,6 +19,14 @@ const routes = {
     res.end(JSON.stringify({ 
       status: 'ok', 
       message: 'Tic-tac-toe backend is running' 
+    }));
+  },
+  
+  board: (req, res) => {
+    res.statusCode = 200;
+    res.end(JSON.stringify({ 
+      board: gameState.board,
+      whoseTurn: gameState.currentPlayer
     }));
   },
   
@@ -40,6 +56,8 @@ function handleRequest(req, res) {
     // Route matching
     if (req.url === '/health' && req.method === 'GET') {
       routes.health(req, res);
+    } else if (req.url === '/api/board' && req.method === 'GET') {
+      routes.board(req, res);
     } else if (req.url === '/api/game' && req.method === 'GET') {
       routes.gameApi(req, res);
     } else {
