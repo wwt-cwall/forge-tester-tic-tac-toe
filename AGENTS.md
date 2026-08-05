@@ -100,6 +100,21 @@ If certificates are not found, only HTTP will be available.
 - `FRONTEND_PORT` - Frontend port in dev mode (default: 3000)
 - `BACKEND_PORT` - Backend port in dev mode (default: 3001)
 
+### Continuous integration
+
+Every push runs `.github/workflows/ci.yml`: `npm install`, `npm test`, then `npm run test:ci`.
+
+`npm run test:ci` holds the checks that are repository-wide rather than any one package's, so
+they run once per push instead of on every `npm test`. They are skipped unless `CI` is set —
+run them locally with:
+
+```bash
+CI=1 npm run test:ci
+```
+
+Do that before you consider a change finished. A check that only fires in CI is a check you
+find out about after you have pushed.
+
 ### Monorepo Structure
 
 This is a npm workspaces monorepo with:

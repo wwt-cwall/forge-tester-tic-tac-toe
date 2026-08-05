@@ -11,6 +11,7 @@
     "dev": "NODE_ENV=DEV node scripts/dev-server.js",
     "start": "NODE_ENV=PROD node scripts/server.js",
     "test": "npm run test --workspaces --if-present",
+    "test:ci": "node scripts/ci-checks.js",
     "lint": "npm run lint --workspaces --if-present",
     "dev:frontend": "npm run dev --workspace=packages/frontend",
     "dev:backend": "npm run dev --workspace=packages/backend"
