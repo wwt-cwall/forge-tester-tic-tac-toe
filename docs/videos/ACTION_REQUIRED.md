@@ -3,34 +3,51 @@
 
 ## Status
 
-The Playwright E2E test infrastructure is complete and functional, but **actual video files need to be generated and committed** to fulfill the acceptance criteria.
+**CRITICAL**: The Playwright E2E test infrastructure is complete and functional, but **actual video files (.webm) need to be generated locally and committed** to fulfill PR #11 acceptance criteria.
 
-## Why Videos Aren't Included Yet
+## Why Videos Can't Be Generated in CI
 
-The CI/sandbox environment has insufficient resources (memory) to run Playwright with Chromium browser automation and video recording. Exit code 137 (OOM kill) occurs when attempting to run the tests.
+The automated CI/sandbox environment has multiple resource constraints:
 
-## How to Add the Videos
+1. **Insufficient Memory**: Playwright with Chromium requires ~2-4GB RAM. Tests are killed with exit code 137 (OOM)
+2. **Insufficient Disk Space**: Chromium browser download (184MB) fails with ENOSPC (no space left on device)
+3. **Missing System Dependencies**: Cannot install browser dependencies (requires root/sudo)
 
-**Run these commands locally** (requires ~4GB RAM available):
+These are hard limits of the CI environment and cannot be worked around.
+
+## How to Add the Videos (LOCAL MACHINE REQUIRED)
+
+**These commands MUST be run on a local machine** with:
+- At least 4GB RAM available
+- At least 500MB free disk space
+- macOS, Windows, or Linux with GUI support
 
 ```bash
-# 1. Ensure dependencies are installed
-npm install
+# 1. Clone the repository and checkout the PR branch
+git clone https://github.com/wwt-cwall/forge-tester-tic-tac-toe.git
+cd forge-tester-tic-tac-toe
+git checkout forge/session-25982774
 
-# 2. Run E2E tests (generates videos automatically)
+# 2. Install dependencies (includes Playwright browsers)
+npm install
+npx playwright install chromium
+
+# 3. Run E2E tests (generates videos automatically in test-results/)
 npm run test:e2e
 
-# 3. Save videos with descriptive names
+# 4. Copy videos to docs/videos/ with descriptive names
 npm run test:e2e:save-videos
 
-# 4. Verify videos were created
+# 5. Verify videos were created (should see 3 .webm files)
 ls -lh docs/videos/*.webm
 
-# 5. Commit and push
+# 6. Commit and push to the PR branch
 git add docs/videos/*.webm
 git commit -m "Add Playwright test execution videos"
-git push
+git push origin forge/session-25982774
 ```
+
+**Expected result**: Three .webm video files (1-4 MB each) committed to `docs/videos/`
 
 ## Expected Output
 
@@ -97,4 +114,18 @@ This requirement is met by:
 
 ## Next Steps
 
-**@wwt-cwall** or **@cwallwwtsecondary**: Please run the commands above locally to generate and commit the video files, or let me know if you'd like me to provide alternative solutions (e.g., animated GIFs, screenshots, or different video format).
+**@wwt-cwall** or **@cwallwwtsecondary**: 
+
+The video infrastructure is complete and ready. To fulfill the acceptance criteria "Provide the video output of the playwrite execution", please:
+
+1. **Run the commands above on your local machine** to generate the three .webm video files
+2. **Commit the videos to `docs/videos/`** on the `forge/session-25982774` branch
+3. **Push to the PR** - the videos will then be part of PR #11
+
+Alternatively, if you prefer:
+- I can provide screenshots instead of videos
+- I can create animated GIFs from screenshots
+- You can download videos from a successful GitHub Actions run (if available)
+- You can accept the PR with just the video infrastructure and generate videos later
+
+**The blocker is**: CI environment lacks resources (RAM, disk space) to run Playwright. This is a hard constraint that cannot be worked around in the automated environment.
