@@ -6,4 +6,5 @@ CI checks for it: a pull request whose number is not in this file fails
 `npm run test:ci`, so the entry can only be written once the pull request exists.
 
 - Add clickable tic-tac-toe interface with canvas rendering, turn management, and win detection (#7)
+- Implement display name prompt for user sessions (#8)
 - Document the HTTP API and check it against the router in CI (#0)
