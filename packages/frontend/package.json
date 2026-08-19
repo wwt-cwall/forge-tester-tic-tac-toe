@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "echo 'Frontend tests pass'"
+    "test": "node __tests__/game-logic.test.js"
   },
   "dependencies": {
     "next": "16.3.0",
