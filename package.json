@@ -12,6 +12,11 @@
     "start": "NODE_ENV=PROD node scripts/server.js",
     "test": "npm run test --workspaces --if-present",
     "test:ci": "node scripts/ci-checks.js",
+    "test:e2e": "node scripts/run-e2e.js",
+    "test:e2e:direct": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report",
     "lint": "npm run lint --workspaces --if-present",
     "dev:frontend": "npm run dev --workspace=packages/frontend",
     "dev:backend": "npm run dev --workspace=packages/backend"
@@ -24,5 +29,8 @@
   "license": "ISC",
   "dependencies": {
     "next": "^16.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
   }
 }

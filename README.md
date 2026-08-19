@@ -1,3 +1,4 @@
+<!-- Changed by Forge v0.1.0 -->
 # forge-tester-tic-tac-toe
 
 A simple web based tic tac toe game to play with friends.
@@ -56,7 +57,9 @@ npm run build --workspace=packages/backend
 
 ### Testing
 
-Run tests for all packages:
+#### Unit Tests
+
+Run unit tests for all packages:
 
 ```bash
 npm run test
@@ -68,6 +71,24 @@ Run tests for a specific package:
 npm run test --workspace=packages/frontend
 npm run test --workspace=packages/backend
 ```
+
+#### End-to-End Tests
+
+Run Playwright E2E tests with video recording:
+
+```bash
+npm run test:e2e
+```
+
+View the test report:
+
+```bash
+npm run test:e2e:report
+```
+
+For detailed instructions, see [docs/RUNNING_TESTS.md](docs/RUNNING_TESTS.md).
+
+**Video Output**: All E2E tests are recorded and saved in `test-results/` directory.
 
 ### Linting
 
