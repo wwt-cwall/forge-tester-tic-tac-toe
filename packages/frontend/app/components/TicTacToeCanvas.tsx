@@ -1,4 +1,20 @@
 // Changed by Forge v0.1.0
+/**
+ * TicTacToeCanvas Component
+ * 
+ * A fully interactive Tic Tac Toe game rendered on HTML5 canvas.
+ * Features:
+ * - Turn-based gameplay: Human player (X) vs Bot opponent (O)
+ * - Canvas rendering: Visual grid with X's and O's
+ * - Bot AI: Strategic opponent that blocks and wins when possible
+ * - Sound effects: Click sound when spaces are claimed
+ * - Responsive: Adapts to screen size
+ * - Win/Draw detection: Checks all 8 winning combinations
+ * 
+ * The game is clickable - click any empty cell to place your X.
+ * The bot automatically plays after a 500ms delay.
+ * A sound effect plays each time a space is claimed.
+ */
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -65,82 +81,118 @@ export default function TicTacToeCanvas() {
     return board.every(cell => cell !== null);
   }, []);
 
-  // Bot AI - simple minimax algorithm
+  /**
+   * Bot AI - Strategic move selection algorithm
+   * 
+   * Priority order:
+   * 1. Win: If bot can complete three in a row, take that move
+   * 2. Block: If player can win next turn, block them
+   * 3. Center: Take center position (strongest strategic position)
+   * 4. Corner: Take any available corner (second strongest positions)
+   * 5. Any: Take any remaining available space
+   * 
+   * This creates a challenging but beatable opponent.
+   */
   const getBotMove = useCallback((board: Board): number => {
-    // Check if bot can win
+    // Priority 1: Check if bot can win on this turn
     for (let i = 0; i < 9; i++) {
       if (board[i] === null) {
         const testBoard = [...board];
         testBoard[i] = 'O';
         if (checkWinner(testBoard) === 'O') {
-          return i;
+          return i; // Winning move found
         }
       }
     }
 
-    // Check if need to block player
+    // Priority 2: Check if need to block player from winning
     for (let i = 0; i < 9; i++) {
       if (board[i] === null) {
         const testBoard = [...board];
         testBoard[i] = 'X';
         if (checkWinner(testBoard) === 'X') {
-          return i;
+          return i; // Block player's winning move
         }
       }
     }
 
-    // Take center if available
+    // Priority 3: Take center if available (strongest position)
     if (board[4] === null) {
       return 4;
     }
 
-    // Take a corner
+    // Priority 4: Take a corner (second strongest positions)
     const corners = [0, 2, 6, 8];
     const availableCorners = corners.filter(i => board[i] === null);
     if (availableCorners.length > 0) {
       return availableCorners[Math.floor(Math.random() * availableCorners.length)];
     }
 
-    // Take any available space
+    // Priority 5: Take any available space
     const available = board.map((cell, i) => cell === null ? i : -1).filter(i => i !== -1);
     return available[Math.floor(Math.random() * available.length)];
   }, [checkWinner]);
 
-  // Play sound effect
+  /**
+   * Play sound effect when a space is claimed
+   * 
+   * Plays a short click sound at 30% volume.
+   * Resets audio to start for rapid successive plays.
+   * Catches and logs errors (e.g., browser autoplay restrictions).
+   */
   const playSound = useCallback(() => {
     if (audioRef.current) {
-      audioRef.current.currentTime = 0;
+      audioRef.current.currentTime = 0; // Reset to start for rapid plays
       audioRef.current.play().catch(err => {
+        // Catch autoplay restrictions or missing audio file
         console.log('Audio play failed:', err);
       });
     }
   }, []);
 
-  // Make a move
+  /**
+   * Make a move on the board
+   * 
+   * Validates the move, updates the board, checks for win/draw,
+   * plays sound effect, and switches to the next player.
+   * 
+   * @param index - Board position (0-8)
+   * @param player - 'X' or 'O'
+   */
   const makeMove = useCallback((index: number, player: Player) => {
     setGameState(prev => {
+      // Validate move: cell must be empty and game must be in progress
       if (prev.board[index] !== null || prev.status !== 'playing') {
-        return prev;
+        return prev; // Invalid move, no state change
       }
 
+      // Update board with new move
       const newBoard = [...prev.board];
       newBoard[index] = player;
 
+      // Check game status
       const winner = checkWinner(newBoard);
       const status: GameStatus = winner ? 'won' : isBoardFull(newBoard) ? 'draw' : 'playing';
 
+      // Play sound effect for this move
       playSound();
 
+      // Return new game state
       return {
         board: newBoard,
-        currentPlayer: player === 'X' ? 'O' : 'X',
+        currentPlayer: player === 'X' ? 'O' : 'X', // Switch turns
         status,
         winner
       };
     });
   }, [checkWinner, isBoardFull, playSound]);
 
-  // Bot's turn
+  /**
+   * Bot's turn - Automatically play when it's the bot's turn
+   * 
+   * Waits 500ms before making a move to provide a more natural
+   * gameplay experience (simulates "thinking" time).
+   */
   useEffect(() => {
     if (gameState.currentPlayer === 'O' && gameState.status === 'playing') {
       const timer = setTimeout(() => {
@@ -148,8 +200,8 @@ export default function TicTacToeCanvas() {
         if (move !== undefined && move !== -1) {
           makeMove(move, 'O');
         }
-      }, 500);
-      return () => clearTimeout(timer);
+      }, 500); // 500ms delay for natural feel
+      return () => clearTimeout(timer); // Cleanup on unmount or state change
     }
   }, [gameState.currentPlayer, gameState.status, gameState.board, getBotMove, makeMove]);
 
