@@ -17,6 +17,8 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:report": "playwright show-report",
+    "test:e2e:save-videos": "node scripts/save-videos.js",
+    "test:e2e:generate-videos": "node scripts/generate-videos.js",
     "lint": "npm run lint --workspaces --if-present",
     "dev:frontend": "npm run dev --workspace=packages/frontend",
     "dev:backend": "npm run dev --workspace=packages/backend"
