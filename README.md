@@ -98,6 +98,20 @@ Run linters for all packages:
 npm run lint
 ```
 
+## Features
+
+### Tic Tac Toe Game
+
+Play Tic Tac Toe against a strategic bot opponent:
+
+- **Canvas Rendering**: Visual game board with X's and O's
+- **Bot AI**: Strategic opponent that blocks and wins when possible
+- **Sound Effects**: Click sound on every move
+- **Responsive Design**: Adapts to screen size
+- **Win/Draw Detection**: Checks all 8 winning combinations
+
+See [docs/specs/features/tic-tac-toe.md](docs/specs/features/tic-tac-toe.md) for full specification.
+
 ## Packages
 
 ### Frontend (`packages/frontend`)

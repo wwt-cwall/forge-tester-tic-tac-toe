@@ -3,6 +3,7 @@
 
 import { useUser } from './contexts/UserContext';
 import DisplayNamePrompt from './components/DisplayNamePrompt';
+import TicTacToeCanvas from './components/TicTacToeCanvas';
 
 export default function Home() {
   const { displayName, clearDisplayName } = useUser();
@@ -31,22 +32,8 @@ export default function Home() {
             )}
           </div>
           
-          <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-            <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-              Tic-Tac-Toe
-            </h1>
-            <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-              Play tic-tac-toe with your friends online. Game features coming soon!
-            </p>
-          </div>
-          
-          <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-            <button
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-              disabled
-            >
-              Start Game
-            </button>
+          <div className="w-full flex justify-center">
+            <TicTacToeCanvas />
           </div>
         </main>
       </div>

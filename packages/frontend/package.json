@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node __tests__/displayName.test.js"
+    "test": "node __tests__/displayName.test.js && node __tests__/ticTacToe.test.js"
   },
   "dependencies": {
     "next": "16.3.0",
