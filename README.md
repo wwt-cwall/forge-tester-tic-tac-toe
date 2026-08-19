@@ -88,7 +88,7 @@ npm run test:e2e:report
 
 For detailed instructions, see [docs/RUNNING_TESTS.md](docs/RUNNING_TESTS.md).
 
-**Video Output**: All E2E tests are recorded and saved in `test-results/` directory.
+**Video Output**: All E2E tests are recorded and saved in `test-results/` directory. Example videos should be committed to `docs/videos/` - see [docs/videos/ACTION_REQUIRED.md](docs/videos/ACTION_REQUIRED.md) for instructions.
 
 ### Linting
 
